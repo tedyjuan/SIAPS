@@ -34,8 +34,13 @@ if (!function_exists('is_logged_in')) {
 
 
 if (!function_exists('ringkasan')) {
-	function ringkasan($teks, $panjang = 100)
+	function ringkasan($teks, $set_leng = null)
 	{
+		if($set_leng == null){
+			$panjang = 100;
+		}else{
+			$panjang = $set_leng;
+		}
 		$teks = strip_tags($teks); // Buang tag HTML
 		if (strlen($teks) <= $panjang) return $teks;
 
@@ -44,6 +49,7 @@ if (!function_exists('ringkasan')) {
 		return substr($potong, 0, $spasiTerakhir) . '...';
 	}
 }
+
 if (!function_exists('time_ago')) {
 	function time_ago($datetime)
 	{

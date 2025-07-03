@@ -24,19 +24,19 @@ class Login extends CI_Controller
 			$this->session->unset_userdata('csrf_token');
 			$jsonmsg = array(
 				"hasil" => 'false',
-				"pesan" => "Token Tidak Sesuai",
+				"pesan" => "Token Tidak Sesuai, Silahkan Refresh Halaman Kembali",
 			);
 			echo json_encode($jsonmsg);
 		} else {
 			$this->form_validation->set_rules('myemail', 'Email', 'required|valid_email');
 			$this->form_validation->set_rules('floatingInput', 'Password', 'required');
-			// Custom pesan error
 			$this->form_validation->set_message('required', '{field} wajib diisi.');
 			if ($this->form_validation->run() == FALSE) {
+				$this->session->unset_userdata('csrf_token');
 				$jsonmsg = [
 					'hasil'            => 'false',
 					'param'            => 'validasi',
-					'err_email'        => strip_tags(form_error('email', '', '')),
+					'err_email'        => strip_tags(form_error('myemail', '', '')),
 					'err_userPassword' => strip_tags(form_error('floatingInput', '', '')),
 				];
 				echo json_encode($jsonmsg);
@@ -46,10 +46,11 @@ class Login extends CI_Controller
 				$concate      = $email  . $userPassword;
 				$data_user    = $this->Mglobal->getWhere("tbl_user", ['szEmail' => $email])->row();
 				if ($data_user == null) {
+					$this->session->unset_userdata('csrf_token');
 					$jsonmsg = [
-						'hasil'     => 'false',
-						'param'     => 'validasi',
-						'err_email' => "email Tidak Terdaftar",
+						'hasil' => 'false',
+						"pesan" => "Email atau Password tidak valid",
+						'kode'  => '0101',
 					];
 					echo json_encode($jsonmsg);
 				} else {
@@ -70,17 +71,17 @@ class Login extends CI_Controller
 						];
 						echo json_encode($jsonmsg);
 					} else {
+						$this->session->unset_userdata('csrf_token');
 						$jsonmsg = [
-							'hasil'     => 'false',
-							'param'     => 'validasi',
-							'err_userPassword' => "Password Tidak Valid",
+							'hasil' => 'false',
+							"pesan" => "Email atau Password tidak valid",
+							'kode'  => '1010',
 						];
 						echo json_encode($jsonmsg);
 					}
 				}
 			}
 		}
-		
 	}
 	 public function logout(){
 		$this->session->sess_destroy();

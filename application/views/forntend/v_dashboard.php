@@ -344,66 +344,34 @@
 					</div>
 				</div>
 				<div class="row">
-					<div class="col-md-6 col-lg-4">
-						<div class="blog-item wow fadeInUp" data-wow-delay=".25s">
-							<div class="blog-date"><i class="fal fa-calendar-alt"></i> June 18, 2024</div>
-							<div class="blog-item-img">
-								<img src="<?= base_url('public/eduka/'); ?>assets/img/blog/01.jpg" alt="Thumb">
-							</div>
-							<div class="blog-item-info">
-								<div class="blog-item-meta">
-									<ul>
-										<li><a href="#"><i class="far fa-user-circle"></i> By Alicia Davis</a></li>
-										<li><a href="#"><i class="far fa-comments"></i> 03 Comments</a></li>
-									</ul>
+					<?php foreach ($blogs as $blg) : ?>
+						<div class="col-md-6 col-lg-4">
+							<div class="blog-item wow fadeInUp" data-wow-delay=".25s">
+								<div class="blog-date"><i class="fal fa-calendar-alt"></i><?= date("F j, Y", strtotime($blg->dtmCreated)); ?></div>
+								<div class="blog-item-img">
+									<img src="<?= base_url('uploads/blog/') . $blg->szNameFile ?>" alt="Thumb">
 								</div>
-								<h4 class="blog-title">
-									<a href="blog-single.html">There are many variations passage have suffered available.</a>
-								</h4>
-								<a class="theme-btn" href="blog-single.html">Read More<i class="fas fa-arrow-right-long"></i></a>
+								<div class="blog-item-info">
+									<div class="blog-item-meta">
+										<ul>
+											<li>
+												<i class="fa-solid fa-layer-group"></i> <?= $blg->nm_kat; ?>
+											</li>
+											<li>
+												<i class="far fa-eye"></i> <?= $blg->szViewCount; ?>
+											</li>
+										</ul>
+									</div>
+									<h4 class="blog-title">
+										<a href="<?= base_url('blog/') . $blg->szSlug; ?>"><?= htmlspecialchars($blg->szTitle, ENT_QUOTES, 'UTF-8') ?>
+										</a>
+									</h4>
+									<a class="theme-btn" href="<?= base_url('blog/') . $blg->szSlug; ?>">Read More<i class="fas fa-arrow-right-long"></i></a>
+								</div>
 							</div>
 						</div>
-					</div>
-					<div class="col-md-6 col-lg-4">
-						<div class="blog-item wow fadeInUp" data-wow-delay=".50s">
-							<div class="blog-date"><i class="fal fa-calendar-alt"></i> June 18, 2024</div>
-							<div class="blog-item-img">
-								<img src="<?= base_url('public/eduka/'); ?>assets/img/blog/02.jpg" alt="Thumb">
-							</div>
-							<div class="blog-item-info">
-								<div class="blog-item-meta">
-									<ul>
-										<li><a href="#"><i class="far fa-user-circle"></i> By Alicia Davis</a></li>
-										<li><a href="#"><i class="far fa-comments"></i> 03 Comments</a></li>
-									</ul>
-								</div>
-								<h4 class="blog-title">
-									<a href="blog-single.html">There are many variations passage have suffered available.</a>
-								</h4>
-								<a class="theme-btn" href="blog-single.html">Read More<i class="fas fa-arrow-right-long"></i></a>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-6 col-lg-4">
-						<div class="blog-item wow fadeInUp" data-wow-delay=".75s">
-							<div class="blog-date"><i class="fal fa-calendar-alt"></i> June 18, 2024</div>
-							<div class="blog-item-img">
-								<img src="<?= base_url('public/eduka/'); ?>assets/img/blog/03.jpg" alt="Thumb">
-							</div>
-							<div class="blog-item-info">
-								<div class="blog-item-meta">
-									<ul>
-										<li><a href="#"><i class="far fa-user-circle"></i> By Alicia Davis</a></li>
-										<li><a href="#"><i class="far fa-comments"></i> 03 Comments</a></li>
-									</ul>
-								</div>
-								<h4 class="blog-title">
-									<a href="blog-single.html">There are many variations passage have suffered available.</a>
-								</h4>
-								<a class="theme-btn" href="blog-single.html">Read More<i class="fas fa-arrow-right-long"></i></a>
-							</div>
-						</div>
-					</div>
+					<?php endforeach; ?>
+
 				</div>
 			</div>
 		</div>
