@@ -73,7 +73,7 @@
 								</div>
 							</li>
 
-							<li class="nav-item"><a class="nav-link" href="<?= base_url('Login'); ?>">Blogs</a></li>
+							<li class="nav-item"><a class="nav-link" href="<?= base_url('blogs'); ?>">Blogs</a></li>
 							<li class="nav-item"><a class="nav-link" href="<?= base_url('Login'); ?>">Login</a></li>
 						</ul>
 						<div class="nav-right">

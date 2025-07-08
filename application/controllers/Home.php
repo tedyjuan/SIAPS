@@ -28,20 +28,24 @@ class Home extends CI_Controller {
 	public function galery(){
 		$this->load->view('forntend/v_gallery');
 	}
+	public function list_blog(){
+		$data = '';
+		$this->load->view('forntend/f_blog/v_all_blog', $data);
+	}
 
 	 public function blog_detail($slug){
 		if (!preg_match('/^[a-z0-9-]+$/', $slug)) {
-			redirect('404_override');
+			redirect('not-found');
 		}
 		$blog  = $this->M_frontend->grid_blog($slug)->row();
 		if($blog == null){
-			redirect('404_override');
+			redirect('not-found');
 		}else{
 			$data['blog']        = $blog;
 			$data['url_refresh'] = $slug;
 			$data['recent_post']  = $this->M_frontend->grid_blog()->result();
 			$data['grid_kategori']      = $this->Mglobal->get_order_where('tbl_kategori', 'id')->result();
-			$this->load->view('forntend/v_blog_detail', $data);
+			$this->load->view('forntend/f_blog/v_blog_detail', $data);
 		}
 	 }
 

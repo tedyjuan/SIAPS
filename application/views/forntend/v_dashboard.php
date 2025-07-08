@@ -373,6 +373,7 @@
 					<?php endforeach; ?>
 
 				</div>
+
 			</div>
 		</div>
 		<!-- blog area end -->

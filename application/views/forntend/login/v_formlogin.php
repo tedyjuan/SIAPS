@@ -19,6 +19,7 @@
 	<link href="<?= base_url('public/admin/'); ?>assets/vendor/bootstrap/bootstrap.min.css" rel="stylesheet" type="text/css">
 	<link href="<?= base_url('public/admin/'); ?>assets/css/style.css" rel="stylesheet" type="text/css">
 	<link href="<?= base_url('public/admin/'); ?>assets/css/responsive.css" rel="stylesheet" type="text/css">
+
 </head>
 
 <body class="sign-in-bg">
@@ -60,17 +61,11 @@
 										<label for="floatingInput">Password</label>
 									</div>
 									<div class="text-end ">
-										<a class="text-warning f-w-500 text-decoration-underline " href="#">Forgot password</a>
+										<a class="text-white f-w-500 text-decoration-underline " href="<?= base_url('forgot-password'); ?>">Forgot password</a>
 									</div>
 								</div>
 								<div class="col-12 mt-3">
 									<button type="button" class="btn btn-warning btn-lg w-100 text-white" id="btn_login" onclick="loginapp()">Sign In </button>
-								</div>
-								<div class="col-12 mt-4">
-									<div class="text-center text-lg-start f-w-500 ">
-										Belum punya akun?
-										<a class="text-white-800 text-decoration-underline" href="#">Sign up</a>
-									</div>
 								</div>
 							</div>
 						</form>
@@ -82,6 +77,14 @@
 	<script src="<?= base_url('public/admin/'); ?>assets/js/jquery-3.6.3.min.js"></script>
 	<script src="<?= base_url('public/admin/'); ?>assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
 	<script src="<?= base_url('public/admin/'); ?>assets/vendor/sweetalert/sweetalert.js"></script>
+	<?php if ($this->session->flashdata('info')) { ?>
+		<script>
+			Swal.fire({
+				type: 'info',
+				title: '<?= $this->session->flashdata('info'); ?>',
+			})
+		</script>
+	<?php } ?>
 	<script>
 		$(document).ready(function() {
 			$('#preloading').hide();
