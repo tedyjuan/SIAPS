@@ -8,29 +8,85 @@ class Login extends CI_Controller
 		parent::__construct();
 		$this->load->model('Mglobal');
 		date_default_timezone_set('Asia/Jakarta');
-
-		// $is_logged = $this->session->userdata('is_logged_in');
-		// if ($is_logged) {
-		// 	redirect('Dashboard');
-		// }
 	}
 	public function index()
 	{
 		// $a = password_hash('role2@gmail.com123', PASSWORD_DEFAULT);
 		$this->load->view('forntend/login/v_formlogin');
 	}
-
-	public function verify()
+	public function logout()
 	{
-		$token = $this->input->get('token-otp', TRUE); // dari URL
-		$data_token    = $this->Mglobal->getWhere("tbl_token_email", ['uuid' => $token])->row();
-		if($data_token == null){
-			redirect('not-found');
-			exit;
-		}
-		$data['waktu_datetime'] = $data_token->expired_at;
-		$this->load->view('forntend/login/v_verification', $data);
+		$this->session->sess_destroy();
+		redirect('/');
 	}
+	function proseslogin()
+	{
+		if ($this->input->post('token') != $this->session->csrf_token || !$this->input->post('token') ||  !$this->session->csrf_token) {
+			$this->session->unset_userdata('csrf_token');
+			$jsonmsg = array(
+				"hasil" => 'false',
+				"pesan" => "Token Tidak Sesuai, Silahkan Refresh Halaman Kembali",
+			);
+			echo json_encode($jsonmsg);
+		} else {
+			$this->form_validation->set_rules('myemail', 'Email', 'required|valid_email');
+			$this->form_validation->set_rules('floatingInput', 'Password', 'required');
+			$this->form_validation->set_message('required', '{field} wajib diisi.');
+			if ($this->form_validation->run() == FALSE) {
+				$this->session->unset_userdata('csrf_token');
+				$jsonmsg = [
+					'hasil'            => 'false',
+					'param'            => 'validasi',
+					'err_email'        => strip_tags(form_error('myemail', '', '')),
+					'err_userPassword' => strip_tags(form_error('floatingInput', '', '')),
+				];
+				echo json_encode($jsonmsg);
+			} else {
+				$email     = sanitize_input($this->input->post('myemail'));
+				$userPassword = $this->input->post('floatingInput');
+				$concate      = $email  . $userPassword;
+				$data_user    = $this->Mglobal->getWhere("tbl_user", ['szEmail' => $email])->row();
+				if ($data_user == null) {
+					$this->session->unset_userdata('csrf_token');
+					$jsonmsg = [
+						'hasil' => 'false',
+						"pesan" => "Email atau Password tidak valid",
+						'kode'  => '0101',
+					];
+					echo json_encode($jsonmsg);
+				} else {
+					// $a = password_hash('teddy112233', PASSWORD_DEFAULT);
+					if (password_verify($concate, $data_user->szPassword)) {
+						$data_session = [
+							'user_id'      => $data_user->id,
+							'email'        => $data_user->szEmail,
+							'name'         => $data_user->szName,
+							'role'         => $data_user->szRole,
+							'is_logged_in' => TRUE
+						];
+						$this->session->set_userdata($data_session);
+						$jsonmsg = [
+							'hasil' => 'true',
+							'pesan' => "Selamat Datang Kembali",
+							'redirecTO' =>  base_url('menu-admin'),
+						];
+						echo json_encode($jsonmsg);
+					} else {
+						$this->session->unset_userdata('csrf_token');
+						$jsonmsg = [
+							'hasil' => 'false',
+							"pesan" => "Email atau Password tidak valid",
+							'kode'  => '1010',
+						];
+						echo json_encode($jsonmsg);
+					}
+				}
+			}
+		}
+	}
+
+
+	// #Begin:: Lupa password =========================================
 	public function lupapassword()
 	{
 		// Memuat helper untuk membuat CAPTCHA dan manipulasi file
@@ -151,83 +207,11 @@ class Login extends CI_Controller
 		// Tampilkan view form lupa password
 		$this->load->view('forntend/login/v_lupapass', $data);
 	}
-
-	function proseslogin()
-	{
-		if ($this->input->post('token') != $this->session->csrf_token || !$this->input->post('token') ||  !$this->session->csrf_token) {
-			$this->session->unset_userdata('csrf_token');
-			$jsonmsg = array(
-				"hasil" => 'false',
-				"pesan" => "Token Tidak Sesuai, Silahkan Refresh Halaman Kembali",
-			);
-			echo json_encode($jsonmsg);
-		} else {
-			$this->form_validation->set_rules('myemail', 'Email', 'required|valid_email');
-			$this->form_validation->set_rules('floatingInput', 'Password', 'required');
-			$this->form_validation->set_message('required', '{field} wajib diisi.');
-			if ($this->form_validation->run() == FALSE) {
-				$this->session->unset_userdata('csrf_token');
-				$jsonmsg = [
-					'hasil'            => 'false',
-					'param'            => 'validasi',
-					'err_email'        => strip_tags(form_error('myemail', '', '')),
-					'err_userPassword' => strip_tags(form_error('floatingInput', '', '')),
-				];
-				echo json_encode($jsonmsg);
-			} else {
-				$email     = sanitize_input($this->input->post('myemail'));
-				$userPassword = $this->input->post('floatingInput');
-				$concate      = $email  . $userPassword;
-				$data_user    = $this->Mglobal->getWhere("tbl_user", ['szEmail' => $email])->row();
-				if ($data_user == null) {
-					$this->session->unset_userdata('csrf_token');
-					$jsonmsg = [
-						'hasil' => 'false',
-						"pesan" => "Email atau Password tidak valid",
-						'kode'  => '0101',
-					];
-					echo json_encode($jsonmsg);
-				} else {
-					// $a = password_hash('teddy112233', PASSWORD_DEFAULT);
-					if (password_verify($concate, $data_user->szPassword)) {
-						$data_session = [
-							'user_id'      => $data_user->id,
-							'email'        => $data_user->szEmail,
-							'name'         => $data_user->szName,
-							'role'         => $data_user->szRole,
-							'is_logged_in' => TRUE
-						];
-						$this->session->set_userdata($data_session);
-						$jsonmsg = [
-							'hasil' => 'true',
-							'pesan' => "Selamat Datang Kembali",
-							'redirecTO' =>  base_url('menu-admin'),
-						];
-						echo json_encode($jsonmsg);
-					} else {
-						$this->session->unset_userdata('csrf_token');
-						$jsonmsg = [
-							'hasil' => 'false',
-							"pesan" => "Email atau Password tidak valid",
-							'kode'  => '1010',
-						];
-						echo json_encode($jsonmsg);
-					}
-				}
-			}
-		}
-	}
-	public function logout()
-	{
-		$this->session->sess_destroy();
-		redirect('/');
-	}
-
-
 	public function proses_lupapassword()
 	{
 		$this->load->library('session');
 		$this->load->library('mailer');
+		$this->load->library('uuid');
 		$this->load->helper(['form', 'url']);
 		$this->load->library('form_validation');
 		if ($this->input->post('token') != $this->session->csrf_token || !$this->input->post('token') ||  !$this->session->csrf_token) {
@@ -268,7 +252,6 @@ class Login extends CI_Controller
 					$get_user = $this->Mglobal->getWhere("tbl_user", ['szEmail' => $email])->row();
 					if ($get_user != null) {
 						$token_email = $this->generate_random_number_6();
-
 						$sendmail = array(
 							'email_penerima' => $email,
 							'subjek'         => "RESET PASSWORD",
@@ -276,6 +259,7 @@ class Login extends CI_Controller
 						);
 
 						$response_email =	$this->mailer->send($sendmail);
+						$uuid_bersih = '';
 						if ($response_email['status'] == 'true') {
 							$cek_email_token = $this->Mglobal->getWhere("tbl_token_email", ['email' => $email])->num_rows();
 							if ($cek_email_token != 0) {
@@ -310,6 +294,21 @@ class Login extends CI_Controller
 			}
 		}
 	}
+	// !END:: Lupa password ===========================================
+
+
+	// #Begin:: otp password ==========================================
+	public function verify()
+	{
+		$token = $this->input->get('token-otp',TRUE);
+		$data_token    = $this->Mglobal->getWhere("tbl_token_email", ['uuid' => $token])->row();
+		if ($data_token == null) {
+			redirect('not-found');
+			exit;
+		}
+		$data['waktu_datetime'] = $data_token->expired_at;
+		$this->load->view('forntend/login/v_verification', $data);
+	}
 	public function generate_random_number_6()
 	{
 		$digits = '123456789'; // tanpa angka 0
@@ -319,10 +318,8 @@ class Login extends CI_Controller
 		}
 		return $result;
 	}
-
 	public function proses_verify()
-	{
-		date_default_timezone_set('Asia/Jakarta');
+	{	
 		$uuid = $this->input->get('token-otp', TRUE); // dari URL
 		$otp1 = $this->input->post('otp1', TRUE);
 		$otp2 = $this->input->post('otp2', TRUE);
@@ -330,11 +327,15 @@ class Login extends CI_Controller
 		$otp4 = $this->input->post('otp4', TRUE);
 		$otp5 = $this->input->post('otp5', TRUE);
 		$otp_full = $otp1 . $otp2 . $otp3 . $otp4 . $otp5;
-		$data_token    = $this->Mglobal->getWhere("tbl_token_email", ['uuid' => $uuid])->row();
+		$parametrs = [
+			'uuid' => $uuid,
+			'status' => '0'
+		];
+		$data_token    = $this->Mglobal->getWhere("tbl_token_email", $parametrs)->row();
 		if($data_token == null){
 			$jsonmsg = [
 				'hasil' => 'false',
-				'pesan' => 'token otp anda tidak di kenali',
+				'pesan' => 'token OTP sudah di gunakan, silahkan request kembali',
 			];
 			echo json_encode($jsonmsg);
 			exit;
@@ -360,10 +361,111 @@ class Login extends CI_Controller
 			echo json_encode($response);
 			exit;
 		}
-		// $cek_email_token = $this->Mglobal->getWhere("tbl_token_email", ['email' => $email])->num_rows();
-
-		 var_dump($data_token); die; 
-		// Lakukan pengecekan token + otp di DB
-		// Lalu kirim response JSON
+		$data = ['status' => '1'];
+		$update_status_token = $this->Mglobal->update($data, "tbl_token_email", ['uuid' => $uuid]);
+		$redirect_url = base_url('new-password?token-otp=' . $uuid);
+		if($update_status_token == 'TRUE'){
+			$jsonmsg = [
+				'hasil'        => 'true',
+				'pesan'        => 'Silahkan Input new password',
+				'redirect_url' => $redirect_url,
+			];
+			echo json_encode($jsonmsg);
+		}else{
+			$jsonmsg = [
+				'hasil' => 'false',
+				'pesan' => 'Gagal Verifikasi 2 faktor otp',
+			];
+			echo json_encode($jsonmsg);
+		}
+		 
 	}
+	// @end:: otp password =============================================
+
+
+	// #Begin::new password =============================================
+	 public function form_new_password(){
+		$token = $this->input->get('token-otp', TRUE); // dari URL
+		$data_token    = $this->Mglobal->getWhere("tbl_token_email", ['uuid' => $token, 'status' => '1'])->row();
+		if ($data_token == null) {
+			redirect('not-found');
+			exit;
+		}
+		$data['waktu_datetime'] = $data_token->expired_at;
+		$this->load->view('forntend/login/v_new_password', $data);
+		 
+	 }
+	  public function proses_new_password(){
+
+		$this->form_validation->set_rules(
+			'new_pass',
+			'Kata Sandi Baru',
+			'required|min_length[6]',
+			[
+				'required'   => 'Kata sandi baru wajib diisi.',
+				'min_length' => 'Kata sandi baru minimal 6 karakter.'
+			]
+		);
+
+		$this->form_validation->set_rules(
+			'conf_pass',
+			'Konfirmasi Sandi',
+			'required|matches[new_pass]',
+			[
+				'required' => 'Konfirmasi sandi wajib diisi.',
+				'matches'  => 'Konfirmasi sandi tidak cocok dengan kata sandi baru.'
+			]
+		);
+
+		if ($this->form_validation->run() == FALSE) {
+			$jsonmsg = [
+				'hasil'        => 'false',
+				'param'        => 'validasi',
+				'err_new_pass' => strip_tags(form_error('new_pass')),
+				'err_con_pass' => strip_tags(form_error('conf_pass')),
+			];
+			echo json_encode($jsonmsg);
+		} else {
+			$uuid = $this->input->get('token-otp', TRUE);
+			$wparam = [
+				'uuid'   => $uuid,
+				'status' => '1'
+			];
+			$data_user    = $this->Mglobal->getWhere("tbl_token_email", $wparam)->row();
+			if ($data_user == null) {
+				$jsonmsg = [
+					'hasil' => 'false',
+					"pesan" => "Token Tidak Ditemukan, silahkan request kembali untuk lupa-password",
+					'kode'  => '0101',
+				];
+				echo json_encode($jsonmsg);
+			} else {
+				$new_pass  = $this->input->post('new_pass');
+				$email     = $data_user->email;
+				$concate   = $email  . $new_pass;
+				$new_sandi = password_hash($concate, PASSWORD_DEFAULT);
+				
+				$where_update_user = ['szEmail' => $email];
+				$data_update_user  = [ 'szPassword' => $new_sandi];
+				$update_db =	$this->Mglobal->update($data_update_user, "tbl_user", $where_update_user);
+				if($update_db == 'TRUE'){
+					// hapus tbl token
+					$this->Mglobal->delete("tbl_token_email", ['email' => $email]);
+					$jsonmsg = [
+						'hasil'       => 'true',
+						'pesan'       => 'Kata sandi baru berhasil dibuat',
+						'redirect_to' => base_url('Login'),
+					];
+					echo json_encode($jsonmsg);
+				}else{
+					$jsonmsg = [
+						'hasil' => 'false',
+						'pesan' => 'Kata sandi baru gagal dibuat, Silahkan Coba Kembali',
+					];
+					echo json_encode($jsonmsg);
+				}
+			}
+		}
+	  }
+	// #end:: new paspword =============================================
 }

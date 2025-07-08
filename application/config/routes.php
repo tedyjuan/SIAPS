@@ -5,13 +5,19 @@ $route['default_controller'] = 'Home';
 $route['404_override'] = 'Myerror/page_missing';
 $route['not-found'] = 'Myerror/page_missing';
 $route['translate_uri_dashes'] = FALSE;
-// #FE 
-$route['forgot-password'] = 'Login/lupapassword';
-$route['verify'] = 'Login/verify';
-$route['proses-verify'] = 'Login/proses_verify';
-$route['gallery'] = 'Home/galery';
-$route['blog/(:any)'] = 'Home/blog_detail/$1';
-$route['blogs'] = 'Home/list_blog';
+
+// #FRONT END
+// LOGIN:
+$route['forgot-password']     = 'Login/lupapassword';         // 1.LUPA PASSWORD FORM 
+$route['verify']              = 'Login/verify';               // 2.OTP PASSWORD FORM 
+$route['proses-verify']       = 'Login/proses_verify';        // 3.PROSES UPDATE STATUS TOKEN
+$route['new-password']        = 'Login/form_new_password';    // 4. NEW PASSWORD FORM  
+$route['proses-new-password'] = 'Login/proses_new_password';  // 5. PROSES NEW PASSWORD
+
+// content 
+$route['gallery']             = 'Home/galery';
+$route['blog/(:any)']         = 'Home/blog_detail/$1';
+$route['blogs']               = 'Home/list_blog';
 
 
 

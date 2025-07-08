@@ -16,9 +16,11 @@ class Mglobal extends CI_Model
 		$this->db->insert($tabel, $data);
 		$this->db->trans_complete();
 		if ($this->db->trans_status() === FALSE) {
+			$this->db->trans_rollback();
 			return FALSE;
 		} else {
-			return $this->db->insert_id();
+			$this->db->trans_commit();
+			return TRUE;
 		}
 	}
 
@@ -100,25 +102,25 @@ class Mglobal extends CI_Model
 	}
 
 
-	function get_produk($kode, $table, $field)
-	{
-		$kode = $this->db->escape_str($kode);
-		$table = $this->db->escape_str($table);
-		$field = $this->db->escape_str($field);
-		$query = $this->db->query("SELECT IFNULL(
-                CONCAT('$kode-', LPAD(
-                    (CAST(SUBSTRING(MAX($field), 6) AS UNSIGNED) + 1), 5, '0')
-                ), '$kode-00001') AS next_kode
-            FROM $table");
-		return $query->row()->next_kode;
-	}
+	// function get_produk($kode, $table, $field)
+	// {
+	// 	$kode = $this->db->escape_str($kode);
+	// 	$table = $this->db->escape_str($table);
+	// 	$field = $this->db->escape_str($field);
+	// 	$query = $this->db->query("SELECT IFNULL(
+    //             CONCAT('$kode-', LPAD(
+    //                 (CAST(SUBSTRING(MAX($field), 6) AS UNSIGNED) + 1), 5, '0')
+    //             ), '$kode-00001') AS next_kode
+    //         FROM $table");
+	// 	return $query->row()->next_kode;
+	// }
 
-	function get_data_select($cari, $tabel, $field1, $field2)
-	{
-		$query =  $this->db->query("SELECT a.* 
-							FROM $tabel AS a 
-							WHERE (a.`$field1` LIKE '%$cari%' OR a.`$field2` LIKE '%$cari%')
-        ");
-		return $query->result_array();
-	}
+	// function get_data_select($cari, $tabel, $field1, $field2)
+	// {
+	// 	$query =  $this->db->query("SELECT a.* 
+	// 						FROM $tabel AS a 
+	// 						WHERE (a.`$field1` LIKE '%$cari%' OR a.`$field2` LIKE '%$cari%')
+    //     ");
+	// 	return $query->result_array();
+	// }
 }

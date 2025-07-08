@@ -97,17 +97,17 @@ class C_gallery extends CI_Controller
 							'szUserCreated'  => $this->user_id,
 						];
 						$cekupdate  = $this->Mglobal->insert($record, 'tbl_gallery');
-						if ($cekupdate != FALSE) {
+						if ($cekupdate == FALSE) {
 							$jsonmsg = array(
-								"hasil"  => 'true',
-								"pesan"  => "Dokument Berhasil Simpan",
-								"psn"  => $this->image_lib->display_errors(),
+								"hasil"  => 'false',
+								"pesan"  => "Dokument Gagal Simpan",
 							);
 							echo json_encode($jsonmsg);
 						} else {
 							$jsonmsg = array(
-								"hasil"  => 'false',
-								"pesan"  => "Dokument Gagal Simpan",
+								"hasil"  => 'true',
+								"pesan"  => "Dokument Berhasil Simpan",
+								"psn"  => $this->image_lib->display_errors(),
 							);
 							echo json_encode($jsonmsg);
 						}

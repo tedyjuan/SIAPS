@@ -112,6 +112,8 @@
 	</div>
 	<script src="<?= base_url('public/admin/'); ?>assets/js/jquery-3.6.3.min.js"></script>
 	<script src="<?= base_url('public/admin/'); ?>assets/vendor/bootstrap/bootstrap.bundle.min.js"></script>
+	<script src="<?= base_url('public/admin/'); ?>assets/vendor/sweetalert/sweetalert.js"></script>
+
 	<script>
 		$(document).ready(function() {
 			$('#preloading').hide();
@@ -130,14 +132,7 @@
 				success: function(data) {
 					$('#preloading').hide();
 					if (data.hasil == "true") {
-						Swal.fire({
-							icon: 'success',
-							title: 'Success',
-							html: data.pesan,
-							showConfirmButton: false,
-							timer: 1000
-						});
-						// window.location.href = data.redirect_to;
+						window.location.href = data.redirect_url;
 					} else {
 						Swal.fire({
 							icon: 'error',
@@ -196,9 +191,6 @@
 			} else {
 				waktuDetikElem.innerText = sisaDetik;
 			}
-
-			// Optional: jika mau update ID ke server pakai AJAX tiap detik
-			// $.post('<?= base_url('controller/update_id'); ?>', { id: sisaDetik });
 		}, 1000);
 	</script>
 
