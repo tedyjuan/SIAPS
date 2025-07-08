@@ -143,7 +143,7 @@ class C_blog extends CI_Controller
 							'dtmCreated'     => date('Y-m-d H:i:s'),
 						];
 						$cekupdate  = $this->Mglobal->insert($record, 'tbl_blog');
-						if ($cekupdate == 'true') {
+						if ($cekupdate != FALSE) {
 							$jsonmsg = array(
 								"hasil"  => 'true',
 								"pesan"  => "Dokument Berhasil Simpan",

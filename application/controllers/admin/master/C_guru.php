@@ -95,7 +95,7 @@ class C_guru extends CI_Controller
 							'szNameFile'     => $nama_baru_gambar,
 						];
 						$cekupdate  = $this->Mglobal->insert($record, 'tbl_slider');
-						if ($cekupdate == 'true') {
+						if ($cekupdate != FALSE) {
 							$jsonmsg = array(
 								"hasil"  => 'true',
 								"pesan"  => "Dokument Berhasil Simpan",

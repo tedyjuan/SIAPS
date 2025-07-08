@@ -58,7 +58,7 @@ class C_kategori extends CI_Controller
 					'szDescription'  => $keterangan,
 				];
 				$cekdb  = $this->Mglobal->insert($data, 'tbl_kategori');
-				if ($cekdb == 'TRUE') {
+				if ($cekdb != FALSE) {
 					$this->session->unset_userdata('csrf_token');
 					$jsonmsg = [
 						'hasil' => 'true',

@@ -97,7 +97,7 @@ class C_gallery extends CI_Controller
 							'szUserCreated'  => $this->user_id,
 						];
 						$cekupdate  = $this->Mglobal->insert($record, 'tbl_gallery');
-						if ($cekupdate == 'true') {
+						if ($cekupdate != FALSE) {
 							$jsonmsg = array(
 								"hasil"  => 'true',
 								"pesan"  => "Dokument Berhasil Simpan",

@@ -82,16 +82,25 @@
 											<div class="verification-box justify-content-lg-start mb-3">
 											</div>
 										</div>
-										<div class="col-12 mb-3">
-											<p>
-												Tidak menerima kode<a class="link-white text-decoration-underline" href="<?= base_url('forgot-password'); ?>"> Kirim ulang!</a>
+										<div class="d-flex justify-content-between align-items-center mb-3">
+											<p class="mb-0">
+												Tidak menerima kode? <br>
+												<a class="link-white text-decoration-underline" href="<?= base_url('forgot-password'); ?>">
+													Kirim ulang!
+												</a>
 											</p>
+											<ul class="timer mb-0 d-flex align-items-center">
+												<li class="seconds fw-bold me-1 text-white" id="waktu_detik">hasil waktu </li>
+												<li class="timer-countdown text-white">seconds</li>
+											</ul>
 										</div>
+
 										<div class="col-12">
 											<div class="mb-3">
 												<button type="button" class="btn btn-warning btn-lg w-100 text-white" id="btn_verify" onclick="verifikasi()">Verify</button>
 											</div>
 										</div>
+
 									</div>
 								</form>
 							</div>
@@ -167,6 +176,32 @@
 			}
 		};
 	</script>
+	<script>
+		const waktuDariServer = "<?= date('Y-m-d\TH:i:s', strtotime($waktu_datetime)); ?>"; // ex: 2025-07-08T00:39:01
+		const expiredSeconds = 600; // 10 menit = 600 detik
+		const waktuDetikElem = document.getElementById("waktu_detik");
+
+		// Konversi ke timestamp
+		const waktuMulai = new Date(waktuDariServer).getTime();
+
+		const interval = setInterval(() => {
+			const now = new Date().getTime();
+			const selisih = Math.floor((now - waktuMulai) / 1000); // dalam detik
+
+			const sisaDetik = expiredSeconds - selisih;
+
+			if (sisaDetik <= 0) {
+				clearInterval(interval);
+				waktuDetikElem.innerText = "Expired";
+			} else {
+				waktuDetikElem.innerText = sisaDetik;
+			}
+
+			// Optional: jika mau update ID ke server pakai AJAX tiap detik
+			// $.post('<?= base_url('controller/update_id'); ?>', { id: sisaDetik });
+		}, 1000);
+	</script>
+
 </body>
 
 </html>

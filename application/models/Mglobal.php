@@ -5,16 +5,10 @@ class Mglobal extends CI_Model
 	function __construct()
 	{
 		parent::__construct();
+		date_default_timezone_set('Asia/Jakarta');
+
 	}
-	// function insert($data, $tabel)
-	// {
-	// 	$this->db->insert($tabel, $data);
-	// 	if ($this->db->affected_rows() > 0) {
-	// 		return $this->db->insert_id(); // Return ID-nya langsung
-	// 	} else {
-	// 		return FALSE;
-	// 	}
-	// }
+	
 	public function insert($data, $tabel)
 	{
 		$this->db->trans_strict(FALSE);

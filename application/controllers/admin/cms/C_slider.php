@@ -226,7 +226,7 @@ class C_slider extends CI_Controller
 		];
 
 		$cekupdate  = $this->Mglobal->insert($record, 'tbl_slider');
-		if ($cekupdate == 'true') {
+		if ($cekupdate != FALSE) {
 			echo json_encode([
 				"hasil" => 'true',
 				"pesan" => "Dokumen Berhasil Disimpan"

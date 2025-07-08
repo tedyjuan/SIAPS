@@ -7,6 +7,8 @@ class Login extends CI_Controller
 	{
 		parent::__construct();
 		$this->load->model('Mglobal');
+		date_default_timezone_set('Asia/Jakarta');
+
 		// $is_logged = $this->session->userdata('is_logged_in');
 		// if ($is_logged) {
 		// 	redirect('Dashboard');
@@ -21,11 +23,13 @@ class Login extends CI_Controller
 	public function verify()
 	{
 		$token = $this->input->get('token-otp', TRUE); // dari URL
-		$data_token    = $this->Mglobal->getWhere("tbl_token_email", ['uuid' => $token])->num_rows();
-		if($data_token == 0){
+		$data_token    = $this->Mglobal->getWhere("tbl_token_email", ['uuid' => $token])->row();
+		if($data_token == null){
 			redirect('not-found');
+			exit;
 		}
-		$this->load->view('forntend/login/v_verification');
+		$data['waktu_datetime'] = $data_token->expired_at;
+		$this->load->view('forntend/login/v_verification', $data);
 	}
 	public function lupapassword()
 	{
@@ -126,7 +130,7 @@ class Login extends CI_Controller
 			'word_length' => 5, // Panjang karakter CAPTCHA
 			'font_size'   => 20,
 			'img_id'      => 'captcha_image',
-			'pool'        => '0123456789abcdefghijkmnopqrstuvwxyzABCDEFGHJKLMNOPQRSTUVWXYZ',
+			'pool'        => '0123456789abcdefghijkmnopqrstuvwxyz',
 			'colors'      => [
 				'background' => [255, 255, 255],
 				'border'     => [255, 255, 255],
@@ -147,7 +151,6 @@ class Login extends CI_Controller
 		// Tampilkan view form lupa password
 		$this->load->view('forntend/login/v_lupapass', $data);
 	}
-
 
 	function proseslogin()
 	{
@@ -221,16 +224,12 @@ class Login extends CI_Controller
 	}
 
 
-
 	public function proses_lupapassword()
 	{
-
 		$this->load->library('session');
 		$this->load->library('mailer');
-
 		$this->load->helper(['form', 'url']);
 		$this->load->library('form_validation');
-
 		if ($this->input->post('token') != $this->session->csrf_token || !$this->input->post('token') ||  !$this->session->csrf_token) {
 			$this->session->unset_userdata('csrf_token');
 			$jsonmsg = array(
@@ -318,7 +317,6 @@ class Login extends CI_Controller
 		for ($i = 0; $i < 5; $i++) {
 			$result .= $digits[rand(0, strlen($digits) - 1)];
 		}
-
 		return $result;
 	}
 

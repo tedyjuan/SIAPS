@@ -65,7 +65,7 @@ class C_eskul extends CI_Controller
 
 					];
 					$cekdb  = $this->Mglobal->insert($data, 'tbl_eskul');
-					if ($cekdb == 'TRUE') {
+					if ($cekdb != FALSE) {
 						$this->session->unset_userdata('csrf_token');
 						$jsonmsg = [
 							'hasil' => 'true',

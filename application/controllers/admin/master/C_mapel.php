@@ -61,7 +61,7 @@ class C_mapel extends CI_Controller
 						'szUserCreated'      => $this->user_id,
 					];
 					$cekdb  = $this->Mglobal->insert($data, 'tbl_mapel');
-					if ($cekdb == 'TRUE') {
+					if ($cekdb != FALSE) {
 						$this->session->unset_userdata('csrf_token');
 						$jsonmsg = [
 							'hasil' => 'true',

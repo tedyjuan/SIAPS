@@ -61,7 +61,7 @@ class C_tingkatan_kelas extends CI_Controller
 						'szUserCreated'  => $this->user_id,
 					];
 					$cekdb  = $this->Mglobal->insert($data, 'tbl_tingkatan_kelas');
-					if ($cekdb == 'TRUE') {
+					if ($cekdb != FALSE) {
 						$this->session->unset_userdata('csrf_token');
 						$jsonmsg = [
 							'hasil' => 'true',
