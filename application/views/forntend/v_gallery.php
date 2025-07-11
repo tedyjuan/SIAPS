@@ -22,7 +22,21 @@
 	<link rel="stylesheet" href="<?= base_url('public/eduka/'); ?>assets/css/magnific-popup.min.css">
 	<link rel="stylesheet" href="<?= base_url('public/eduka/'); ?>assets/css/owl.carousel.min.css">
 	<link rel="stylesheet" href="<?= base_url('public/eduka/'); ?>assets/css/style.css">
-
+	<style>
+		.gallery-content::before {
+			content: "";
+			position: absolute;
+			left: 10px;
+			top: 10px;
+			right: 10px;
+			bottom: 10px;
+			background: var(--theme-color2);
+			border-radius: 10px 10px 10px 10px;
+			opacity: 0;
+			visibility: hidden;
+			transition: 0.3s;
+		}
+	</style>
 </head>
 
 <body>
@@ -41,22 +55,8 @@
 
 
 	<main class="main">
-
-		<!-- breadcrumb -->
-		<div class="site-breadcrumb" style="background: url(<?= base_url('public/eduka/'); ?>assets/img/breadcrumb/01.jpg)">
-			<div class="container">
-				<h2 class="breadcrumb-title">Gallery Kegiatan Sekolah</h2>
-				<ul class="breadcrumb-menu">
-					<li><a href="index-2.html">Home</a></li>
-					<li class="active">Gallery</li>
-				</ul>
-			</div>
-		</div>
-		<!-- breadcrumb end -->
-
-
 		<!-- event area -->
-		<div class="event-area py-120">
+		<div class="event-area py-80 mb-5">
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-6 mx-auto">
@@ -68,146 +68,31 @@
 						</div>
 					</div>
 				</div>
-				<div class="row popup-gallery">
-					<div class="col-md-4 wow fadeInUp" data-wow-delay=".25s">
-						<div class="gallery-item">
-							<div class="gallery-img">
-								<img style="object-fit: cover;" src="<?= base_url('uploads/gallery/img_1750816987.jpg'); ?>" alt="">
-							</div>
-							<div class="gallery-content">
-								<a class="popup-img gallery-link" href="<?= base_url('uploads/gallery/img_1750816987.jpg'); ?>"><i class="fal fa-plus"></i></a>
-							</div>
-						</div>
-					</div>
-				</div>
+
 				<div class="row">
-					<div class="col-lg-4">
-						<!-- <div class="event-item">
-							<div class="event-location">
-								<span><i class="far fa-map-marker-alt"></i> 25/B Milford Road, New York</span>
-							</div>
-							<div class="event-img">
-							</div>
-							<div class="event-info">
-								<div class="event-meta">
-									<span class="event-date"><i class="far fa-calendar-alt"></i>16 June, 2024</span>
-									<span class="event-time"><i class="far fa-clock"></i>10.00AM - 04.00PM</span>
-								</div>
-								<h4 class="event-title"><a href="#">High School Program 2024</a></h4>
-								<p>There are many variations of passages the majority have some injected humour.</p>
-								<div class="event-btn">
-									<a href="#" class="theme-btn">Join Event<i class="fas fa-arrow-right-long"></i></a>
+					<div class="row popup-gallery">
+						<?php foreach ($galery as $gly) { ?>
+							<div class="col-md-4 wow fadeInUp" data-wow-delay=".25s">
+								<span class="badge bg-primary">Kegiatan : <?= $gly->szName; ?></span>
+								<div class="gallery-item">
+									<div class="gallery-imgs">
+										<img style="border-radius: 10px 10px 10px 10px; width:100%" src="<?= base_url('uploads/gallery/' . $gly->szNameFile); ?>" alt="">
+									</div>
+									<div class="gallery-content">
+										<a class="popup-img gallery-link" href="<?= base_url('uploads/gallery/' . $gly->szNameFile); ?>"><i class="fal fa-plus"></i></a>
+									</div>
 								</div>
 							</div>
-						</div> -->
-					</div>
-					<div class="col-lg-4">
-						<div class="event-item">
-							<div class="event-location">
-								<span><i class="far fa-map-marker-alt"></i> 25/B Milford Road, New York</span>
-							</div>
-							<div class="event-img">
-								<img src="<?= base_url('public/eduka/'); ?>assets/img/event/03.jpg" alt="">
-							</div>
-							<div class="event-info">
-								<div class="event-meta">
-									<span class="event-date"><i class="far fa-calendar-alt"></i>16 June, 2024</span>
-									<span class="event-time"><i class="far fa-clock"></i>10.00AM - 04.00PM</span>
-								</div>
-								<h4 class="event-title"><a href="#">High School Program 2024</a></h4>
-								<p>There are many variations of passages the majority have some injected humour.</p>
-								<div class="event-btn">
-									<a href="#" class="theme-btn">Join Event<i class="fas fa-arrow-right-long"></i></a>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-4">
-						<div class="event-item">
-							<div class="event-location">
-								<span><i class="far fa-map-marker-alt"></i> 25/B Milford Road, New York</span>
-							</div>
-							<div class="event-img">
-								<img src="<?= base_url('public/eduka/'); ?>assets/img/event/04.jpg" alt="">
-							</div>
-							<div class="event-info">
-								<div class="event-meta">
-									<span class="event-date"><i class="far fa-calendar-alt"></i>16 June, 2024</span>
-									<span class="event-time"><i class="far fa-clock"></i>10.00AM - 04.00PM</span>
-								</div>
-								<h4 class="event-title"><a href="#">High School Program 2024</a></h4>
-								<p>There are many variations of passages the majority have some injected humour.</p>
-								<div class="event-btn">
-									<a href="#" class="theme-btn">Join Event<i class="fas fa-arrow-right-long"></i></a>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-4">
-						<div class="event-item">
-							<div class="event-location">
-								<span><i class="far fa-map-marker-alt"></i> 25/B Milford Road, New York</span>
-							</div>
-							<div class="event-img">
-								<img src="<?= base_url('public/eduka/'); ?>assets/img/event/05.jpg" alt="">
-							</div>
-							<div class="event-info">
-								<div class="event-meta">
-									<span class="event-date"><i class="far fa-calendar-alt"></i>16 June, 2024</span>
-									<span class="event-time"><i class="far fa-clock"></i>10.00AM - 04.00PM</span>
-								</div>
-								<h4 class="event-title"><a href="#">High School Program 2024</a></h4>
-								<p>There are many variations of passages the majority have some injected humour.</p>
-								<div class="event-btn">
-									<a href="#" class="theme-btn">Join Event<i class="fas fa-arrow-right-long"></i></a>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-lg-4">
-						<div class="event-item">
-							<div class="event-location">
-								<span><i class="far fa-map-marker-alt"></i> 25/B Milford Road, New York</span>
-							</div>
-							<div class="event-img">
-								<img src="<?= base_url('public/eduka/'); ?>assets/img/event/06.jpg" alt="">
-							</div>
-							<div class="event-info">
-								<div class="event-meta">
-									<span class="event-date"><i class="far fa-calendar-alt"></i>16 June, 2024</span>
-									<span class="event-time"><i class="far fa-clock"></i>10.00AM - 04.00PM</span>
-								</div>
-								<h4 class="event-title"><a href="#">High School Program 2024</a></h4>
-								<p>There are many variations of passages the majority have some injected humour.</p>
-								<div class="event-btn">
-									<a href="#" class="theme-btn">Join Event<i class="fas fa-arrow-right-long"></i></a>
-								</div>
-							</div>
-						</div>
+						<?php } ?>
 					</div>
 				</div>
-				<!-- pagination -->
 				<div class="pagination-area">
 					<div aria-label="Page navigation example">
-						<ul class="pagination">
-							<li class="page-item">
-								<a class="page-link" href="#" aria-label="Previous">
-									<span aria-hidden="true"><i class="far fa-arrow-left"></i></span>
-								</a>
-							</li>
-							<li class="page-item active"><a class="page-link" href="#">1</a></li>
-							<li class="page-item"><a class="page-link" href="#">2</a></li>
-							<li class="page-item"><a class="page-link" href="#">3</a></li>
-							<li class="page-item">
-								<a class="page-link" href="#" aria-label="Next">
-									<span aria-hidden="true"><i class="far fa-arrow-right"></i></span>
-								</a>
-							</li>
-						</ul>
+						<?= $pagination ?>
 					</div>
 				</div>
-				<!-- pagination end -->
 			</div>
+
 		</div>
 		<!-- event area end -->
 
@@ -236,7 +121,7 @@
 	<script src="<?= base_url('public/eduka/'); ?>assets/js/counter-up.js"></script>
 	<script src="<?= base_url('public/eduka/'); ?>assets/js/wow.min.js"></script>
 	<script src="<?= base_url('public/eduka/'); ?>assets/js/main.js"></script>
-
+	</script>
 </body>
 
 </html>

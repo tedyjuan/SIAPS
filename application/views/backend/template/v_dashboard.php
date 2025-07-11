@@ -23,6 +23,9 @@
 	<link href="<?= base_url('public/admin/'); ?>assets/vendor/ionio-icon/css/iconoir.css" rel="stylesheet">
 	<link href="<?= base_url('public/admin/'); ?>assets/vendor/datatable/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
 	<link href="<?= base_url('public/admin/'); ?>assets/vendor/select/select2.min.css" rel="stylesheet" type="text/css">
+	<link href="<?= base_url('public/admin/') ?>assets/vendor/trumbowyg/trumbowyg.min.css" rel="stylesheet">
+	<link href="<?= base_url('public/admin/'); ?>assets/vendor/datepikar/flatpickr.min.css" rel="stylesheet" type="text/css">
+
 	<style>
 		.icon-md {
 			font-size: 20px;
@@ -186,6 +189,10 @@
 	<script src="<?= base_url('public/admin/'); ?>assets/vendor/parsleyjs/id.js"></script>
 	<script src="<?= base_url('public/admin/'); ?>assets/vendor/sweetalert/sweetalert.js"></script>
 	<script src="<?= base_url('public/admin/'); ?>assets/vendor/select/select2.min.js"></script>
+	<script src="<?= base_url('public/admin/') ?>assets/vendor/trumbowyg/trumbowyg.min.js"></script>
+	<script src="<?= base_url('public/admin/'); ?>assets/vendor/datepikar/flatpickr.js"></script>
+
+
 	<script>
 		const BASE_URL = "<?= base_url(); ?>";
 		<?php if (isset($url_hapus) && !empty($url_hapus)): ?>
@@ -207,6 +214,8 @@
 				}
 			}
 		});
+		$('.editor').trumbowyg('destroy');
+		$('#trumbowyg-icons').remove();
 	</script>
 </body>
 

@@ -57,6 +57,9 @@
 				<li id="sub_tngkatan_kls" class="sub_reset">
 					<a href="javascript:;" onclick="tocontroller('admin/master/C_tingkatan_kelas', 'nav_master', 'sub_tngkatan_kls','li_master')">Master Tingkatan Kelas</a>
 				</li>
+				<li id="sub_visi_misi" class="sub_reset">
+					<a href="javascript:;" onclick="tocontroller('admin/master/C_visi_misi', 'nav_master', 'sub_visi_misi','li_master')">Master Visi Misi</a>
+				</li>
 			</ul>
 		</li>
 		<li class="menu-title">

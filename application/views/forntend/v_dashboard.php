@@ -217,9 +217,9 @@
 					<div class="col-lg-6">
 						<div class="about-right wow fadeInRight" data-wow-delay=".25s">
 							<div class="site-heading mb-3">
-								<span class="site-title-tagline"><i class="far fa-book-open-reader"></i> About Us</span>
+								<span class="site-title-tagline"><i class="far fa-book-open-reader"></i> Visi & Misi </span>
 								<h2 class="site-title">
-									Profil Sekolah <span>SMA</span> Negeri 1 CUKUH BALAK
+									Visi & Misi <span> SMA Negeri 1</span> CUKUH BALAK
 								</h2>
 							</div>
 							<p class="about-text">
@@ -229,14 +229,14 @@
 							</p>
 							<div class="about-content">
 								<div class="row">
-									<div class="col-md-7">
+									<div class="col-md-12">
 										<div class="about-item">
 											<div class="about-item-icon">
 												<img src="<?= base_url('public/eduka/'); ?>assets/img/icon/open-book.svg" alt="">
 											</div>
 											<div class="about-item-content">
-												<h5>Edukation Services</h5>
-												<p>It is a long established fact that reader will to using content.</p>
+												<h5>Visi</h5>
+												<p><?= ringkasan($visi_misi->szVisi, 50); ?></p>
 											</div>
 										</div>
 										<div class="about-item">
@@ -244,19 +244,12 @@
 												<img src="<?= base_url('public/eduka/'); ?>assets/img/icon/global-education.svg" alt="">
 											</div>
 											<div class="about-item-content">
-												<h5>International Hubs</h5>
-												<p>It is a long established fact that reader will to using content.</p>
+												<h5>Misi</h5>
+												<p><?= ringkasan($visi_misi->szMisi, 50); ?></p>
 											</div>
 										</div>
 									</div>
-									<div class="col-md-5">
-										<div class="about-quote">
-											<p>It is a long established fact that a reader will be distracted by the
-												content of
-												a page when looking at its reader for the long words layout.</p>
-											<i class="far fa-quote-right"></i>
-										</div>
-									</div>
+
 								</div>
 							</div>
 							<div class="about-bottom">
@@ -358,15 +351,23 @@
 												<i class="fa-solid fa-layer-group"></i> <?= $blg->nm_kat; ?>
 											</li>
 											<li>
-												<i class="far fa-eye"></i> <?= $blg->szViewCount; ?>
+												<i class="far fa-eye"></i> <?= $blg->szViewCount; ?> Views
 											</li>
 										</ul>
+
 									</div>
 									<h4 class="blog-title">
-										<a href="<?= base_url('blog/') . $blg->szSlug; ?>"><?= htmlspecialchars($blg->szTitle, ENT_QUOTES, 'UTF-8') ?>
+										<a href="<?= base_url('blog/') . $blg->szSlug; ?>">
+											<?= htmlspecialchars(ringkasan($blg->szTitle, 80), ENT_QUOTES, 'UTF-8') ?>
 										</a>
 									</h4>
-									<a class="theme-btn" href="<?= base_url('blog/') . $blg->szSlug; ?>">Read More<i class="fas fa-arrow-right-long"></i></a>
+									<div class="d-flex justify-content-between align-items-center ">
+										<a class="badge bg-warning" href="<?= base_url('blog/') . $blg->szSlug; ?>">
+											Read More <i class="fas fa-arrow-right-long"></i>
+										</a>
+										<span class="text-muted"><?= time_ago($blg->dtmCreated); ?></span>
+									</div>
+
 								</div>
 							</div>
 						</div>
@@ -415,7 +416,7 @@
 		</div>
 		<!-- video-area end -->
 		<!-- gallery-area -->
-		<?php if ($jumlah_foto >= 2): ?>
+		<?php if (!empty($galery)): ?>
 			<div class="gallery-area py-120">
 				<div class="container">
 					<div class="row">
@@ -456,8 +457,7 @@
 						<div class="site-heading text-center">
 							<span class="site-title-tagline"><i class="far fa-book-open-reader"></i> EKSTRAKURIKULER</span>
 							<h2 class="site-title">Program <span>Ekstrakurikuler</span></h2>
-							<p>It is a long established fact that a reader will be distracted by the readable content of
-								a page when looking at its layout.</p>
+
 						</div>
 					</div>
 				</div>

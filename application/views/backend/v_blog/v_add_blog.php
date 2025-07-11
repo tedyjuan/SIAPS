@@ -1,9 +1,6 @@
 <!-- filepond css -->
 <link href="<?= base_url('public/admin/') ?>assets/vendor/filepond/filepond.css" rel="stylesheet">
 <link href="<?= base_url('public/admin/') ?>assets/vendor/filepond/image-preview.min.css" rel="stylesheet">
-
-<!-- editor css -->
-<link href="<?= base_url('public/admin/') ?>assets/vendor/trumbowyg/trumbowyg.min.css" rel="stylesheet">
 <div class="row">
 	<div class="col-12">
 		<div class="card ">
@@ -27,10 +24,11 @@
 					<?= add_csrf() ?>
 					<div class="app-form">
 						<div class="row">
+							
 							<div class="col-6">
 								<div class="mb-3">
 									<label class="form-label " for="judul_blog">Judul Blog</label>
-									<input type="text" class="form-control" id="judul_blog" name="judul_blog" placeholder="Input judul blog" data-parsley-required="true" data-parsley-errors-container=".err_name">
+									<input type="text" class="form-control" id="judul_blog" name="judul_blog" placeholder="Input nama kegiatan" data-parsley-required="true" data-parsley-errors-container=".err_name">
 									<span class="text-danger err_name"></span>
 								</div>
 								<div class="mb-3">
@@ -46,21 +44,20 @@
 							</div>
 							<div class="col-6">
 								<div class="mb-3">
-									<label class="form-label " for="long_text">Gambar foto <small class="text-danger text-sm">* 1920 x 1280 / 5MB</small> </label>
+									<label class="form-label">Gambar foto <small class="text-danger text-sm">* 1920 x 1280 / 5MB</small> </label>
 									<div class="row file-uploader-box">
 										<input class="filepond-file" type="file" id="gambar" name="gambar">
 									</div>
 								</div>
 							</div>
 						</div>
-						<div class="row">
-							<div class="mb-3">
-								<div class="col-xl-12 editor-details">
-									<textarea name="editor" id="editor" data-parsley-required="true" data-parsley-errors-container=".err_des">Hi..!</textarea>
-									<span class="text-danger err_des"></span>
-								</div>
-							</div>
+
+						<div class="mb-3">
+							<label class="form-label " for="desc_text">Konten</label>
+							<textarea class="form-control editor" name="editor" id="editor" data-parsley-required="true" data-parsley-errors-container=".err_des"></textarea>
+							<span class="text-danger err_des"></span>
 						</div>
+
 						<div>
 							<button type="button" id="btnsubmit" class="btn btn-primary">Submit</button>
 						</div>
@@ -78,8 +75,9 @@
 <script src="<?= base_url('public/admin/') ?>assets/vendor/filepond/exif-orientation.min.js"></script>
 <script src="<?= base_url('public/admin/') ?>assets/vendor/filepond/image-preview.min.js"></script>
 <script src="<?= base_url('public/admin/') ?>assets/vendor/filepond/filepond.min.js"></script>
+<!-- js -->
 <script src="<?= base_url('public/admin/') ?>assets/js/file_upload.js"></script>
-<script src="<?= base_url('public/admin/') ?>assets/vendor/trumbowyg/trumbowyg.min.js"></script>
+
 <script>
 	$('#btnsubmit').click(function() {
 		var form = $("#forms_add");
@@ -118,16 +116,24 @@
 							$(".err_name").html('');
 						}
 					}
+					$('.editor').trumbowyg('destroy');
+					$('#trumbowyg-icons').remove();
 					loadform('admin/cms/C_blog');
+
 				}
 			});
 		}
 	});
 	$('.select2').select2({
 		placeholder: 'Pilih',
-		allowClear: true
 	});
-	$('#editor').trumbowyg({
+</script>
+<script>
+	$('.editor').trumbowyg('destroy');
+	$('#trumbowyg-icons').remove();
+
+	// Re-init
+	$('.editor').trumbowyg({
 		autogrow: true
 	});
 </script>

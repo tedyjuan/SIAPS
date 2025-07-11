@@ -43,22 +43,8 @@
 
 
 	<main class="main">
-
-		<!-- breadcrumb -->
-		<div class="site-breadcrumb" style="background: url(<?= base_url('public/eduka/'); ?>assets/img/breadcrumb/01.jpg)">
-			<div class="container">
-				<h2 class="breadcrumb-title">Blog Single</h2>
-				<ul class="breadcrumb-menu">
-					<li><a href="index-2.html">Home</a></li>
-					<li class="active">Blog Single</li>
-				</ul>
-			</div>
-		</div>
-		<!-- breadcrumb end -->
-
-
 		<!-- blog single area -->
-		<div class="blog-single-area pt-120 pb-120">
+		<div class="blog-single-area pt-40 pb-120">
 			<div class="container">
 				<div class="row">
 					<div class="col-lg-8">

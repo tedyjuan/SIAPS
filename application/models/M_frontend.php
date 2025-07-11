@@ -6,20 +6,7 @@ class M_frontend extends CI_Model
 	{
 		parent::__construct();
 	}
-	function grid_galery($limit = null, $uuid = null)
-	{
-		$this->db->select('a.*');
-		$this->db->from('tbl_gallery a');
-		$this->db->where('a.szStatus', 'ACTIVE');
-		if($uuid != null){
-			$this->db->where('a.uuid', $uuid);
-		}
-		$this->db->order_by('a.id', 'DESC'); 
-		if ($limit != null) {
-			$this->db->limit($limit, 0);
-		}
-		return $this->db->get();
-	}
+	
 	function grid_eskul()
 	{
 		$this->db->select('a.*');
@@ -28,18 +15,64 @@ class M_frontend extends CI_Model
 		$this->db->where('a.szCode <>', 'EXS-00001'); 
 		return $this->db->get();
 	}
-	function grid_blog($slug = null)
+	// Di M_frontend.php
+	public function grid_blog($params = [])
 	{
- 		$this->db->select('a.*, b.szName as nm_kat ');
+		$limit  = isset($params['limit']) ? $params['limit'] : 6;
+		$offset = isset($params['offset']) ? $params['offset'] : 0;
+		$slug   = isset($params['slug']) ? $params['slug'] : null;
+
+		$this->db->select('a.*, b.szName as nm_kat');
 		$this->db->from('tbl_blog a');
 		$this->db->join('tbl_kategori b', 'b.szCode = a.szKategoryId', 'inner');
 		$this->db->where('a.szStatus', 'PUBLISH');
-		if($slug != null){
+
+		if ($slug !== null) {
 			$this->db->where('a.szSlug', $slug);
 		}
-		 $this->db->order_by('a.dtmCreated', 'desc');
-		$this->db->limit('3');
+
+		// Kalau nanti ada pencarian kategori
+		// if (isset($params['kategori_id'])) {
+		// 	$this->db->where('a.szKategoryId', $params['kategori_id']);
+		// }
+
+		// Kalau nanti ada keyword pencarian
+		// if (isset($params['keyword'])) {
+		// 	$this->db->like('a.szTitle', $params['keyword']);
+		// }
+
+		$this->db->order_by('a.dtmCreated', 'desc');
+		$this->db->limit($limit, $offset);
+
 		return $this->db->get();
 	}
+
+
+	public function count_blog()
+	{
+		$this->db->from('tbl_blog');
+		$this->db->where('szStatus', 'PUBLISH');
+		return $this->db->count_all_results();
+	}
+	public function grid_galery($params = [])
+	{
+		$limit  = isset($params['limit']) ? $params['limit'] : 6;
+		$offset = isset($params['offset']) ? $params['offset'] : 0;
+		$this->db->select('a.*');
+		$this->db->from('tbl_gallery a');
+		// $this->db->where('a.szStatus', 'ACTIVE');
+		$this->db->order_by('a.dtmCreated', 'desc');
+		$this->db->limit($limit, $offset);
+		return $this->db->get();
+	}
+	
+	public function count_gallery()
+	{
+		$this->db->from('tbl_gallery');
+		// $this->db->where('szStatus', 'ACTIVE');
+		return $this->db->count_all_results(); 
+	}
+	
+
 
 }
